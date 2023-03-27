@@ -13,6 +13,12 @@
   <:item title="Content"><%= @post.content %></:item>
 </.list>
 
+<.table id="post-comments" rows={@streams.comments}>
+  <:col :let={{_id, comment}} label="Content">
+    <%= comment.content %>
+  </:col>
+</.table>
+
 <.back navigate={~p"/posts"}>Back to posts</.back>
 
 <.modal :if={@live_action == :edit} id="post-modal" show on_cancel={JS.patch(~p"/posts/#{@post}")}>
