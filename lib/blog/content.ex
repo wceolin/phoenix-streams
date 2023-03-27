@@ -6,6 +6,7 @@ defmodule Blog.Content do
   import Ecto.Query, warn: false
   alias Blog.Repo
 
+  alias Blog.Content.Comment
   alias Blog.Content.Post
 
   @doc """
@@ -100,5 +101,17 @@ defmodule Blog.Content do
   """
   def change_post(%Post{} = post, attrs \\ %{}) do
     Post.changeset(post, attrs)
+  end
+
+  def add_comment(attrs \\ %{}) do
+    %Comment{} |> Comment.changeset(attrs) |> Repo.insert()
+  end
+
+  def list_post_comments(%Post{} = post) do
+    from(c in Comment,
+      where: c.post_id == ^post.id,
+      select: c
+    )
+    |> Repo.all()
   end
 end

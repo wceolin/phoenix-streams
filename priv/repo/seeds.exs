@@ -20,11 +20,22 @@ contents = [
   "This is the content of the third post."
 ]
 
+comments = ["First comment", "Second comment", "Third comment"]
+
 for i <- 0..2 do
   post_params = %{
     title: Enum.at(titles, i),
     content: Enum.at(contents, i)
   }
 
-  Content.create_post(post_params)
+  {:ok, post} = Content.create_post(post_params)
+
+  for j <- 0..2 do
+    comment_params = %{
+      content: Enum.at(comments, j),
+      post_id: post.id
+    }
+
+    Content.add_comment(comment_params)
+  end
 end
